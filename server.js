@@ -42,8 +42,8 @@ app.post('/api/students', (req, res) => {
            res.status(400).send('You must enter a name.')
            rollbar.log('Please enter a name')
            rollbar.critical('Please enter a name')
-       } else if (typeof name === "number") {
-            rollbar.warning("Exit log failed: You have entered a number")
+       } else if (name === "Nelson") {
+            rollbar.warning("Exit log failed: You have entered the Administrator's name")
        } else {
            res.status(400).send('That student already exists.')
            rollbar.critical("Student Already Exists in System Please Try again")
