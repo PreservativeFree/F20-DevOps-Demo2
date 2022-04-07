@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const path = require('path')
 const cors = require('cors')
+
 // include and initialize the rollbar library with your access token
 var Rollbar = require('rollbar')
 var rollbar = new Rollbar({
@@ -12,6 +13,7 @@ var rollbar = new Rollbar({
 
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
+rollbar.critical('Critcal error message')
 app.use(express.json())
 
 const students = ['Jimmy', 'Timothy', 'Jimothy']
@@ -38,9 +40,10 @@ app.post('/api/students', (req, res) => {
            res.status(200).send(students)
        } else if (name === ''){
            res.status(400).send('You must enter a name.')
+           rollbar.log('Please enter a name')
        } else {
            res.status(400).send('That student already exists.')
-           Rollbar.critical("Student Already Exists in System Please Try again")
+           rollbar.critical("Student Already Exists in System Please Try again")
        }
        rollbar.info('Someone added a student')
    } catch (err) {
